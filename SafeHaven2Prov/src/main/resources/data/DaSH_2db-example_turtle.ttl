@@ -1,0 +1,1311 @@
+@prefix : <https://w3id.org/shp#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <https://w3id.org/shp> .
+
+<https://w3id.org/shp> rdf:type owl:Ontology ;
+                        owl:imports <http://www.w3.org/ns/prov-o-20130430> .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://w3id.org/shp#dataSource
+:dataSource rdf:type owl:ObjectProperty ;
+            rdfs:domain :DataLinkagePlan ;
+            rdfs:range :LinkagePlanDataSource .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.w3.org/2002/07/owl#topDataProperty
+owl:topDataProperty rdfs:domain :Database ;
+                    rdfs:range xsd:dateTime .
+
+
+###  https://w3id.org/shp#abbreviation
+:abbreviation rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Database ;
+              rdfs:range rdfs:Literal ;
+              rdfs:comment "Short name of source database" .
+
+
+###  https://w3id.org/shp#cohortMembersLinked
+:cohortMembersLinked rdf:type owl:DatatypeProperty ;
+                     rdfs:domain :DataSet ;
+                     rdfs:range xsd:nonNegativeInteger ;
+                     rdfs:comment "Number of cohort members successfully linked" .
+
+
+###  https://w3id.org/shp#cohortMembersNotLinked
+:cohortMembersNotLinked rdf:type owl:DatatypeProperty ;
+                        rdfs:domain :DataSet ;
+                        rdfs:range xsd:nonNegativeInteger ;
+                        rdfs:comment "Number of cohort members not linked" .
+
+
+###  https://w3id.org/shp#cohortMembersWithInvalidLinkageVariable
+:cohortMembersWithInvalidLinkageVariable rdf:type owl:DatatypeProperty ;
+                                         rdfs:domain :DataSet ;
+                                         rdfs:range xsd:nonNegativeInteger ;
+                                         rdfs:comment "Number of eligible cohort members with an incorrect or missing identifier as linkage variable" .
+
+
+###  https://w3id.org/shp#cohortPermanentId
+:cohortPermanentId rdf:type owl:DatatypeProperty ;
+                   rdfs:domain :DataLinkagePlan ;
+                   rdfs:range rdfs:Literal ;
+                   rdfs:comment "Unique identifier for cohort file used in extraction" .
+
+
+###  https://w3id.org/shp#cohortSize
+:cohortSize rdf:type owl:DatatypeProperty ;
+            rdfs:domain :DataSet ,
+                        :UidMapping ;
+            rdfs:range xsd:nonNegativeInteger ;
+            rdfs:comment "Total number of people in the cohort. This number was either determined by the analyst before the before the data linkage process or was provided by the researcher." .
+
+
+###  https://w3id.org/shp#cohortSpecification
+:cohortSpecification rdf:type owl:DatatypeProperty ;
+                     rdfs:domain :DataLinkagePlan ,
+                                 :DataSet ;
+                     rdfs:range rdfs:Literal ;
+                     rdfs:comment """Data linkage Plan: The cohort specification based on the researchers criteria to answer their research question.
+
+Dataset: How the Lead Analyst defined the cohort""" .
+
+
+###  https://w3id.org/shp#contact
+:contact rdf:type owl:DatatypeProperty ;
+         rdfs:domain :Database ;
+         rdfs:range rdfs:Literal ;
+         rdfs:comment "Point of contact for questions about source database" .
+
+
+###  https://w3id.org/shp#contexualInformationLink
+:contexualInformationLink rdf:type owl:DatatypeProperty ;
+                          rdfs:domain :Database ;
+                          rdfs:comment "Web URL or folder path that point to the contextual information of the source data such as e.g. Metadata, variable definition, collection methods etc." .
+
+
+###  https://w3id.org/shp#dataCustodian
+:dataCustodian rdf:type owl:DatatypeProperty ;
+               rdfs:domain :Database ;
+               rdfs:range rdfs:Literal ;
+               rdfs:comment "Data custodian of source database" .
+
+
+###  https://w3id.org/shp#databaseName
+:databaseName rdf:type owl:DatatypeProperty ;
+              rdfs:domain :Database ;
+              rdfs:range rdfs:Literal ;
+              rdfs:comment "Name of source database" .
+
+
+###  https://w3id.org/shp#extractedDatasets
+:extractedDatasets rdf:type owl:DatatypeProperty ;
+                   rdfs:domain :DatasetRelease ;
+                   rdfs:range rdfs:Literal ;
+                   rdfs:comment "List of all datasets extracted and released into the project folder of the researcher" .
+
+
+###  https://w3id.org/shp#extractedVariables
+:extractedVariables rdf:type owl:DatatypeProperty ;
+                    rdfs:domain :DataSet ;
+                    rdfs:range rdfs:Literal ;
+                    rdfs:comment "List of variables extracted from the database to form the dataset" .
+
+
+###  https://w3id.org/shp#fileDate
+:fileDate rdf:type owl:DatatypeProperty ;
+          rdfs:domain :DataSet ;
+          rdfs:range xsd:dateTime ;
+          rdfs:comment """file date used in DASH project folder
+
+Note: the range xsd:DateTime has a too high resolution for what is needed here.
+So, even though the time is not needed. It should be provided, please use T00:00:00 for the time.""" .
+
+
+###  https://w3id.org/shp#fileName
+:fileName rdf:type owl:DatatypeProperty ;
+          rdfs:domain :DataLinkagePlan ,
+                      :DataSet ,
+                      :StatisticalSummary ;
+          rdfs:range rdfs:Literal ;
+          rdfs:comment "Assigned file name for the dataset, which will be release into the project folder the researcher" .
+
+
+###  https://w3id.org/shp#lastKnownUpdate
+:lastKnownUpdate rdf:type owl:DatatypeProperty ;
+                 rdfs:domain :Database ;
+                 rdfs:range xsd:dateTime ;
+                 rdfs:comment """When was the last known update of the database, before it was used to generate the dataset for the research project
+
+Note: the range xsd:DateTime has a too high resolution for what is needed here.
+So, even though the time is not needed. It should be provided, please use T00:00:00 for the time.""" .
+
+
+###  https://w3id.org/shp#linkageVariable
+:linkageVariable rdf:type owl:DatatypeProperty ;
+                 rdfs:domain :DataLinkagePlan ,
+                             :DataSet ,
+                             :IdLinkage ;
+                 rdfs:range rdfs:Literal ;
+                 rdfs:comment "Variable used for linkage to source dataset" .
+
+
+###  https://w3id.org/shp#mostRecentRecordDate
+:mostRecentRecordDate rdf:type owl:DatatypeProperty ;
+                      rdfs:domain :Database ;
+                      rdfs:range xsd:dateTime ;
+                      rdfs:comment """Date of the most recent record in database.
+
+Note: the range xsd:DateTime has a too high resolution for what is needed here.
+So, even though the time is not needed. It should be provided, please use T00:00:00 for the time.""" .
+
+
+###  https://w3id.org/shp#numberOfRecords
+:numberOfRecords rdf:type owl:DatatypeProperty ;
+                 rdfs:domain :DataSet ;
+                 rdfs:range xsd:nonNegativeInteger .
+
+
+###  https://w3id.org/shp#oldestRecordDate
+:oldestRecordDate rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :Database ;
+                  rdfs:range xsd:dateTime .
+
+
+###  https://w3id.org/shp#permanentId
+:permanentId rdf:type owl:DatatypeProperty ;
+             rdfs:domain :DataSet ,
+                         :Database ;
+             rdfs:range rdfs:Literal ;
+             rdfs:comment "Unique identifier for source database" .
+
+
+###  https://w3id.org/shp#projectId
+:projectId rdf:type owl:DatatypeProperty ;
+           rdfs:domain :DashProject ,
+                       :DataLinkagePlan ,
+                       :ProjectIdToStudyIdTable ;
+           rdfs:range rdfs:Literal ;
+           rdfs:comment "Project IDs are assigned to a project by the Research Coordinator as soon as a researcher makes contact with the Data Safen Haven and wants to discuss his project idea." .
+
+
+###  https://w3id.org/shp#requestedVariables
+:requestedVariables rdf:type owl:DatatypeProperty .
+
+
+###  https://w3id.org/shp#resultOfCheck
+:resultOfCheck rdf:type owl:DatatypeProperty ;
+               rdfs:domain :DashReport ;
+               rdfs:range rdfs:Literal ;
+               rdfs:comment "The results of a DataCheck-activity that generated DashReport-Enity. Currently it is recommended that is either has the values “passed” or “failed”." .
+
+
+###  https://w3id.org/shp#studyId
+:studyId rdf:type owl:DatatypeProperty ;
+         rdfs:domain :DataSet ,
+                     :ProjectIdToStudyIdTable ;
+         rdfs:range xsd:nonNegativeInteger ;
+         rdfs:comment "Each dataset of a project get its own unique Study ID assigned. The Study ID will used as a prefix (usually 4 digits) for anonymised ID number." .
+
+
+###  https://w3id.org/shp#version
+:version rdf:type owl:DatatypeProperty ;
+         rdfs:domain :Database ;
+         rdfs:range rdfs:Literal .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  https://w3id.org/shp#Analyst
+:Analyst rdf:type owl:Class ;
+         rdfs:subClassOf prov:Person .
+
+
+###  https://w3id.org/shp#Anonymization
+:Anonymization rdf:type owl:Class ;
+               rdfs:subClassOf :DashActivity .
+
+
+###  https://w3id.org/shp#AssignCommonUidMapping
+:AssignCommonUidMapping rdf:type owl:Class ;
+                        rdfs:subClassOf :DashActivity .
+
+
+###  https://w3id.org/shp#CheckValue
+:CheckValue rdf:type owl:Class ;
+            rdfs:subClassOf :UIDMapping2CheckReport ;
+            rdfs:comment "A check value that allows to determine whether a file has been changed or not. When it shouldn’t"^^rdfs:Literal ,
+                         "NOTE: the activity (UidMapping2Check) that generates this report is not yet official implemented into the workflow of the Analysts."^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#CohortCreation
+:CohortCreation rdf:type owl:Class ;
+                rdfs:subClassOf :DashActivity .
+
+
+###  https://w3id.org/shp#CohortList
+:CohortList rdf:type owl:Class ;
+            rdfs:subClassOf :DashProjectDocument ;
+            rdfs:comment "A list of all people in the cohort for the project from which the cohort size is derived"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#CreateCommonUid
+:CreateCommonUid rdf:type owl:Class ;
+                 rdfs:subClassOf :DashActivity .
+
+
+###  https://w3id.org/shp#DashActivity
+:DashActivity rdf:type owl:Class ;
+              rdfs:subClassOf prov:Activity .
+
+
+###  https://w3id.org/shp#DashProject
+:DashProject rdf:type owl:Class ;
+             rdfs:subClassOf prov:Bundle ;
+             rdfs:comment "A research project in a  high security enviroment so called Data Safe Haven (Dash)" .
+
+
+###  https://w3id.org/shp#DashProjectDocument
+:DashProjectDocument rdf:type owl:Class ;
+                     rdfs:subClassOf prov:Entity .
+
+
+###  https://w3id.org/shp#DashReport
+:DashReport rdf:type owl:Class ;
+            rdfs:subClassOf prov:Entity .
+
+
+###  https://w3id.org/shp#DataAnonymization
+:DataAnonymization rdf:type owl:Class ;
+                   rdfs:subClassOf :Anonymization .
+
+
+###  https://w3id.org/shp#DataCheck
+:DataCheck rdf:type owl:Class ;
+           rdfs:subClassOf :DashActivity .
+
+
+###  https://w3id.org/shp#DataLinkagePlan
+:DataLinkagePlan rdf:type owl:Class ;
+                 rdfs:subClassOf prov:Plan ,
+                                 :DashProjectDocument .
+
+
+###  https://w3id.org/shp#DataSelection
+:DataSelection rdf:type owl:Class ;
+               rdfs:subClassOf :DashActivity .
+
+
+###  https://w3id.org/shp#DataSet
+:DataSet rdf:type owl:Class ;
+         rdfs:subClassOf prov:Entity ;
+         rdfs:comment "Is a cohort-based subset of the Database"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#DataTransfer
+:DataTransfer rdf:type owl:Class ;
+              rdfs:subClassOf :DashActivity .
+
+
+###  https://w3id.org/shp#Database
+:Database rdf:type owl:Class ;
+          rdfs:subClassOf prov:Entity .
+
+
+###  https://w3id.org/shp#DatasetLinkageIdMapping
+:DatasetLinkageIdMapping rdf:type owl:Class ;
+                         rdfs:subClassOf :DashProjectDocument ;
+                         rdfs:comment "Linkage file maps the original identifiable ID (e.g. such as CHI) in the respective dataset to a project and dataset specific new UID. In other words, those UIDs are different for each dataset in a project. This is to prevent premature linkage of the data before is has been fully anonymised."^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#DatasetRelease
+:DatasetRelease rdf:type owl:Class ;
+                rdfs:subClassOf :DashActivity .
+
+
+###  https://w3id.org/shp#DatasetSummarisation
+:DatasetSummarisation rdf:type owl:Class ;
+                      rdfs:subClassOf :DashActivity .
+
+
+###  https://w3id.org/shp#DisclosureCheck
+:DisclosureCheck rdf:type owl:Class ;
+                 rdfs:subClassOf :DataCheck ;
+                 rdfs:comment "Technical Lead checks the prepared datasets for disclosive elements. Disclosure checks have more of an emphasis on validity of permissions. Known as ‘sign off’. This is a key step prior to data moving from e.g. NHS side to the data safe haven. It generates a disclosure check report."^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#DisclosureCheckReport
+:DisclosureCheckReport rdf:type owl:Class ;
+                       rdfs:subClassOf :DashReport ;
+                       rdfs:comment "Report of the results of the disclosure checks, which indicates if the work of the Lead analyst has passed or failed the disclosure check."^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#FailedDisclosureCheck
+:FailedDisclosureCheck rdf:type owl:Class .
+
+
+###  https://w3id.org/shp#FailedValidationCheck
+:FailedValidationCheck rdf:type owl:Class .
+
+
+###  https://w3id.org/shp#GenerateCheckValue
+:GenerateCheckValue rdf:type owl:Class ;
+                    rdfs:subClassOf :DataCheck ;
+                    rdfs:comment "It generates a check value (e.g. “sum check”) for a file to help determine if the file had been changed or not."^^rdfs:Literal ,
+                                 "NOTE: This activity is not yet official implemented into the workflow of the Analysts."^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#IdAnonymization
+:IdAnonymization rdf:type owl:Class ;
+                 rdfs:subClassOf :Anonymization ;
+                 rdfs:comment "Replacing the original identifiers in the dataset with a new anonymized unique identifier specific for that dataset." .
+
+
+###  https://w3id.org/shp#IdLinkage
+:IdLinkage rdf:type owl:Class ;
+           rdfs:subClassOf :DashActivity .
+
+
+###  https://w3id.org/shp#LeadAnalyst
+:LeadAnalyst rdf:type owl:Class ;
+             rdfs:subClassOf prov:Person .
+
+
+###  https://w3id.org/shp#LinkagePlanDataSource
+:LinkagePlanDataSource rdf:type owl:Class ;
+                       rdfs:subClassOf prov:Entity .
+
+
+###  https://w3id.org/shp#NhsDatabase
+:NhsDatabase rdf:type owl:Class ;
+             rdfs:subClassOf :Database ;
+             rdfs:comment "A database from the Nathional Heath Service of the United Kingdom, that hold electronic health records. These are routinely collected data generated when an individual receivescare in a health care setting."^^rdfs:Literal ;
+             rdfs:label "NHS database"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#NhsDataset
+:NhsDataset rdf:type owl:Class ;
+            rdfs:subClassOf :DataSet .
+
+
+###  https://w3id.org/shp#OriginalIdRemoval
+:OriginalIdRemoval rdf:type owl:Class ;
+                   rdfs:subClassOf :DashActivity .
+
+
+###  https://w3id.org/shp#PassedDisclosureCheck
+:PassedDisclosureCheck rdf:type owl:Class .
+
+
+###  https://w3id.org/shp#PassedValidationCheck
+:PassedValidationCheck rdf:type owl:Class .
+
+
+###  https://w3id.org/shp#ProjectIdAssignment
+:ProjectIdAssignment rdf:type owl:Class ;
+                     rdfs:subClassOf :DashActivity .
+
+
+###  https://w3id.org/shp#ProjectIdToStudyIdTable
+:ProjectIdToStudyIdTable rdf:type owl:Class ;
+                         rdfs:subClassOf prov:Entity ;
+                         rdfs:comment "This table tracks which Project ID has which Study IDs assigned. Each Project has one Project ID, but can have multiple Study IDs. As each dataset of the project get its own unique Study ID assigned. Project IDs are assigned to a project by the Research Coordinator as soon as a researcher makes contact with the Data Safen Haven and wants to discuss his project idea." .
+
+
+###  https://w3id.org/shp#ResearchCoordinator
+:ResearchCoordinator rdf:type owl:Class ;
+                     rdfs:subClassOf prov:Person .
+
+
+###  https://w3id.org/shp#Researcher
+:Researcher rdf:type owl:Class ;
+            rdfs:subClassOf prov:Person .
+
+
+###  https://w3id.org/shp#SignOff
+:SignOff rdf:type owl:Class ;
+         rdfs:subClassOf :DashActivity ;
+         rdfs:comment "to give approval" .
+
+
+###  https://w3id.org/shp#StatisticalSummary
+:StatisticalSummary rdf:type owl:Class ;
+                    rdfs:subClassOf :DashProjectDocument ;
+                    rdfs:comment "Give a summary statistic (e.g. mean, max, min etc) of a dataset regardless the data type (e.g. integer, string, character, Boolean etc.)"^^rdfs:Literal ;
+                    rdfs:label "Statistical Summary"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#Storage
+:Storage rdf:type owl:Class ;
+         rdfs:subClassOf :DashActivity .
+
+
+###  https://w3id.org/shp#StudyIdAssignment
+:StudyIdAssignment rdf:type owl:Class ;
+                   rdfs:subClassOf :DashActivity .
+
+
+###  https://w3id.org/shp#TechnicalLead
+:TechnicalLead rdf:type owl:Class ;
+               rdfs:subClassOf prov:Person ;
+               rdfs:comment "Has overall responsibilities and does the disclosure checks. They should have the right to access the non-anonymized data." .
+
+
+###  https://w3id.org/shp#UIDMapping2CheckReport
+:UIDMapping2CheckReport rdf:type owl:Class ;
+                        rdfs:subClassOf :DashReport .
+
+
+###  https://w3id.org/shp#UidMapping
+:UidMapping rdf:type owl:Class ;
+            rdfs:subClassOf :DashProjectDocument ;
+            rdfs:comment "Unique Identifier mapping file, maps the corresponding UID in the different dataset in a project to each other. This allows the correct linkage later, once the dataset have been fully anonymised"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#UidMapping2Check
+:UidMapping2Check rdf:type owl:Class ;
+                  rdfs:subClassOf :DataCheck .
+
+
+###  https://w3id.org/shp#Update
+:Update rdf:type owl:Class ;
+        rdfs:subClassOf :DashActivity .
+
+
+###  https://w3id.org/shp#ValidationCheck
+:ValidationCheck rdf:type owl:Class ;
+                 rdfs:subClassOf :DataCheck ;
+                 rdfs:comment "A second DaSH Analyst checks activities to this point. Includes check against requirements and permissions. Validation checks concentrate on technical aspects, whether the coding is correct and that datasets match the Data Linkage Plan. It generates a validation check report."^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#ValidationCheckReport
+:ValidationCheckReport rdf:type owl:Class ;
+                       rdfs:subClassOf :DashReport ;
+                       rdfs:comment "Report of the results of the validation checks, which indicates if the work of the Lead analyst has passed or failed the validation check."^^rdfs:Literal .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  https://w3id.org/shp#AssignCommonUidMapping
+:AssignCommonUidMapping rdf:type owl:NamedIndividual ,
+                                 :AssignCommonUidMapping ;
+                        prov:used :UidMapping-2 ;
+                        prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#Bernhard
+:Bernhard rdf:type owl:NamedIndividual ,
+                   :Researcher ;
+          rdfs:comment "A person whose research may require a high-secure environment (Data Safe Haven)." .
+
+
+###  https://w3id.org/shp#CheckValue1
+:CheckValue1 rdf:type owl:NamedIndividual ,
+                      :CheckValue ;
+             prov:wasAttributedTo :Helen ;
+             prov:wasGeneratedBy :GenerateCheckValue1 ;
+             prov:value 1 .
+
+
+###  https://w3id.org/shp#CheckValue2
+:CheckValue2 rdf:type owl:NamedIndividual ,
+                      :CheckValue ;
+             prov:wasAttributedTo :Helen ;
+             prov:wasGeneratedBy :GenerateCheckValue2 ;
+             prov:value 1 .
+
+
+###  https://w3id.org/shp#CohortCreation
+:CohortCreation rdf:type owl:NamedIndividual ,
+                         :CohortCreation ;
+                prov:used :DataLinkagePlan-1 ;
+                prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#CohortList_Dash_999
+:CohortList_Dash_999 rdf:type owl:NamedIndividual ,
+                              :CohortList ;
+                     prov:wasAttributedTo :Helen ;
+                     prov:wasGeneratedBy :CohortCreation ;
+                     :cohortSize 50000 ;
+                     :projectId "Dash_999" .
+
+
+###  https://w3id.org/shp#CreateCommonUid
+:CreateCommonUid rdf:type owl:NamedIndividual ,
+                          :CreateCommonUid ;
+                 prov:used :ProjectIdToStudyIdTable-2 ;
+                 prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#DLM_PIS
+:DLM_PIS rdf:type owl:NamedIndividual ,
+                  :DatasetLinkageIdMapping ;
+         prov:wasAttributedTo :Helen ;
+         prov:wasGeneratedBy :IdAnonymization2 ;
+         :numberOfRecords 30000 ;
+         :projectId "Dash_999"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#DLM_SMR00
+:DLM_SMR00 rdf:type owl:NamedIndividual ,
+                    :DatasetLinkageIdMapping ;
+           prov:wasAttributedTo :Helen ;
+           prov:wasGeneratedBy :IdAnonymization1 ;
+           :numberOfRecords 47000 ;
+           :projectId "Dash_999"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#Dash_999
+:Dash_999 rdf:type owl:NamedIndividual ,
+                   :DashProject ;
+          prov:wasAttributedTo :Bernhard ,
+                               :Joanne ;
+          prov:wasGeneratedBy :ProjectIdAssignment ;
+          :projectId "Dash_999"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#DataAnonymization1
+:DataAnonymization1 rdf:type owl:NamedIndividual ,
+                             :DataAnonymization ;
+                    prov:used :SMR00-1 ;
+                    prov:wasAssociatedWith :Helen ;
+                    rdfs:comment "De-identifying data, for example aggregating postcodes to datazones, modifying date of birth to month of birth or providing age in years at specific dates" .
+
+
+###  https://w3id.org/shp#DataAnonymization2
+:DataAnonymization2 rdf:type owl:NamedIndividual ,
+                             :DataAnonymization ;
+                    prov:used :PIS-1 ;
+                    prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#DataLinkagePlan-1
+:DataLinkagePlan-1 rdf:type owl:NamedIndividual ,
+                            :DataLinkagePlan ;
+                   prov:wasAttributedTo :Bernhard ,
+                                        :Helen ,
+                                        :Joanne ;
+                   :dataSource :Database1_Plan1 ,
+                               :Database2_Plan1 ,
+                               :Database3_Plan1 ;
+                   :cohortSpecification "31-year-old patients, who were born under the sign of Aquarius"^^rdfs:Literal ;
+                   :fileName "dataLinkagePlan-v1.docx" .
+
+
+###  https://w3id.org/shp#DataLinkagePlan-2
+:DataLinkagePlan-2 rdf:type owl:NamedIndividual ,
+                            :DataLinkagePlan ;
+                   prov:wasAttributedTo :Helen ;
+                   prov:wasGeneratedBy :Update-1 ;
+                   :dataSource :Database1_Plan2 ,
+                               :Database2_Plan2 ;
+                   :cohortSpecification "31-year-old patients, who were born under the sign of Aquarius"^^rdfs:Literal ;
+                   :fileName "dataLinkagePlan-v2.docx" ;
+                   :projectId "Dash_999"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#DataLinkagePlan-3
+:DataLinkagePlan-3 rdf:type owl:NamedIndividual ,
+                            :DataLinkagePlan ;
+                   prov:wasAttributedTo :Helen ;
+                   prov:wasGeneratedBy :Update-2 ;
+                   :dataSource :Database1_Plan3 ,
+                               :Database2_Plan3 ;
+                   :cohortSpecification "31-year-old patients, who were born under the sign of Aquarius"^^rdfs:Literal ;
+                   :fileName "Data-Linkage-Plan_Dash999.doc"^^rdfs:Literal ;
+                   :projectId "Dash_999"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#DataSelection1
+:DataSelection1 rdf:type owl:NamedIndividual ,
+                         :DataSelection ;
+                prov:used :CohortList_Dash_999 ,
+                          :DataLinkagePlan-1 ,
+                          :SMR00 ;
+                prov:wasAssociatedWith :Helen ;
+                rdfs:comment "Extracting the dataset from the database based on cohort definition provided by the researcher and specified in the Data Linkage Plan" .
+
+
+###  https://w3id.org/shp#DataSelection2
+:DataSelection2 rdf:type owl:NamedIndividual ,
+                         :DataSelection ;
+                prov:used :CohortList_Dash_999 ,
+                          :DataLinkagePlan-1 ,
+                          :PIS ;
+                prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#DataTransfer
+:DataTransfer rdf:type owl:NamedIndividual ,
+                       :DataTransfer ;
+              prov:used :PIS-3 ,
+                        :SMR00-3 ,
+                        :UidMapping-2 ;
+              prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#Database1_Plan1
+:Database1_Plan1 rdf:type owl:NamedIndividual ,
+                          :LinkagePlanDataSource ;
+                 :permanentId "PIS" ;
+                 :requestedVariables "AGE, A, B, C" .
+
+
+###  https://w3id.org/shp#Database1_Plan2
+:Database1_Plan2 rdf:type owl:NamedIndividual ,
+                          :LinkagePlanDataSource ;
+                 :permanentId "PIS" ;
+                 :requestedVariables "AGE, A, B, C" .
+
+
+###  https://w3id.org/shp#Database1_Plan3
+:Database1_Plan3 rdf:type owl:NamedIndividual ,
+                          :LinkagePlanDataSource ;
+                 :permanentId "PIS" ;
+                 :requestedVariables "AGE, A, B, C" .
+
+
+###  https://w3id.org/shp#Database2_Plan1
+:Database2_Plan1 rdf:type owl:NamedIndividual ,
+                          :LinkagePlanDataSource ;
+                 :permanentId "SMR00" ;
+                 :requestedVariables "AGE, X, Y, Z" .
+
+
+###  https://w3id.org/shp#Database2_Plan2
+:Database2_Plan2 rdf:type owl:NamedIndividual ,
+                          :LinkagePlanDataSource ;
+                 :permanentId "SMR00" ;
+                 :requestedVariables "AGE, X, Y, Z" .
+
+
+###  https://w3id.org/shp#Database2_Plan3
+:Database2_Plan3 rdf:type owl:NamedIndividual ,
+                          :LinkagePlanDataSource ;
+                 :permanentId "SMR00" ;
+                 :requestedVariables "AGE, X, Y, Z" .
+
+
+###  https://w3id.org/shp#Database3_Plan1
+:Database3_Plan1 rdf:type owl:NamedIndividual ,
+                          :LinkagePlanDataSource ;
+                 :permanentId "TEST MISSING SOURCE" ;
+                 :requestedVariables "CHI, NAME" .
+
+
+###  https://w3id.org/shp#DatasetRelease
+:DatasetRelease rdf:type owl:NamedIndividual ,
+                         :DatasetRelease ;
+                prov:used :DataLinkagePlan-3 ,
+                          :PIS-4 ,
+                          :SMR00-4 ,
+                          :StatisticalSummary_PIS-4 ,
+                          :StatisticalSummary_SMR00-4 ;
+                prov:wasAssociatedWith :Helen ;
+                prov:atTime "2021-12-16T16:40:00"^^xsd:dateTime .
+
+
+###  https://w3id.org/shp#DatasetSummarisation1
+:DatasetSummarisation1 rdf:type owl:NamedIndividual ,
+                                :DatasetSummarisation ;
+                       prov:used :SMR00-3 ;
+                       prov:wasAssociatedWith :Helen ;
+                       rdfs:comment "A statistical summary of the dataset is created. The following values are generated regardless of variable type: datatype, Completeness, Total entries, % non null, minimum, maximum, smallest disclosed number." .
+
+
+###  https://w3id.org/shp#DatasetSummarisation2
+:DatasetSummarisation2 rdf:type owl:NamedIndividual ,
+                                :DatasetSummarisation ;
+                       prov:used :PIS-3 ;
+                       prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#DatasetSummarisation3
+:DatasetSummarisation3 rdf:type owl:NamedIndividual ,
+                                :DatasetSummarisation ;
+                       prov:used :SMR00-4 ;
+                       prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#DatasetSummarisation4
+:DatasetSummarisation4 rdf:type owl:NamedIndividual ,
+                                :DatasetSummarisation ;
+                       prov:used :PIS-4 ;
+                       prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#DisclosureCheckNhs
+:DisclosureCheckNhs rdf:type owl:NamedIndividual ,
+                             :DisclosureCheck ;
+                    prov:used :PIS-3 ,
+                              :SMR00-3 ,
+                              :UidMapping-2 ;
+                    prov:wasAssociatedWith :Jessica ;
+                    rdfs:comment "Technical Lead checks the prepared datasets for disclosive elements. Disclosure checks have more of an emphasis on validity of permissions. Known as ‘sign off’. This is a key step prior to data moving from e.g. NHS side to the data safe haven." .
+
+
+###  https://w3id.org/shp#DisclosureCheckNhsReport
+:DisclosureCheckNhsReport rdf:type owl:NamedIndividual ,
+                                   :DisclosureCheckReport ;
+                          prov:wasAttributedTo :Jessica ;
+                          prov:wasGeneratedBy :DisclosureCheckNhs ;
+                          :resultOfCheck "passed"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#DisclosureCheckUoa
+:DisclosureCheckUoa rdf:type owl:NamedIndividual ,
+                             :DisclosureCheck ;
+                    prov:used :PIS-4 ,
+                              :SMR00-4 ;
+                    prov:wasAssociatedWith :Jessica .
+
+
+###  https://w3id.org/shp#DisclosureCheckUoaReport
+:DisclosureCheckUoaReport rdf:type owl:NamedIndividual ,
+                                   :DisclosureCheckReport ;
+                          prov:wasAttributedTo :Jessica ;
+                          prov:wasGeneratedBy :DisclosureCheckUoa ;
+                          :resultOfCheck "passed"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#GenerateCheckValue1
+:GenerateCheckValue1 rdf:type owl:NamedIndividual ,
+                              :GenerateCheckValue ;
+                     prov:used :UidMapping-2 ;
+                     prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#GenerateCheckValue2
+:GenerateCheckValue2 rdf:type owl:NamedIndividual ,
+                              :GenerateCheckValue ;
+                     prov:used :UidMapping-2 ;
+                     prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#Helen
+:Helen rdf:type owl:NamedIndividual ,
+                :LeadAnalyst ;
+       rdfs:comment "The Lead Analyst is responsible for the whole data linkage process of the project. Depending on the data safe haven, the analysts may or may not have the right to see and work on the non-anonymized data." .
+
+
+###  https://w3id.org/shp#IdAnonymization1
+:IdAnonymization1 rdf:type owl:NamedIndividual ,
+                           :IdAnonymization ;
+                  prov:used :ProjectIdToStudyIdTable-2 ,
+                            :SMR00-2 ;
+                  prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#IdAnonymization2
+:IdAnonymization2 rdf:type owl:NamedIndividual ,
+                           :IdAnonymization ;
+                  prov:used :PIS-2 ,
+                            :ProjectIdToStudyIdTable-2 ;
+                  prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#IdAnonymization3
+:IdAnonymization3 rdf:type owl:NamedIndividual ,
+                           :IdAnonymization ;
+                  prov:used :ProjectIdToStudyIdTable-3 ,
+                            :SMR00-3 ,
+                            :UidMapping-3 ;
+                  prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#IdAnonymization4
+:IdAnonymization4 rdf:type owl:NamedIndividual ,
+                           :IdAnonymization ;
+                  prov:used :PIS-3 ,
+                            :ProjectIdToStudyIdTable-3 ,
+                            :UidMapping-3 ;
+                  prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#IdLinkage
+:IdLinkage rdf:type owl:NamedIndividual ,
+                    :IdLinkage ;
+           prov:used :DLM_PIS ,
+                     :DLM_SMR00 ;
+           prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#Jessica
+:Jessica rdf:type owl:NamedIndividual ,
+                  :TechnicalLead .
+
+
+###  https://w3id.org/shp#Joanne
+:Joanne rdf:type owl:NamedIndividual ,
+                 :ResearchCoordinator ;
+        prov:wasInformedBy :Bernhard ;
+        rdfs:comment "Grampian Data Safe Haven Research Coordinators (RCs) facilitate the use of routinely collected data for health research. RCs support researchers from academia, NHS and industry to design, plan, gather permissions and conduct research involving health and administrative data." ,
+                     "They assign the project ID to a project, when a researcher contacts the data safe haven with his project idea" .
+
+
+###  https://w3id.org/shp#Milan
+:Milan rdf:type owl:NamedIndividual ,
+                :Analyst ;
+       rdfs:comment "Is responsible for the validation checks. Depending on the data safe haven, the analysts may or may not have the right to see and work on the non-anonymized data." .
+
+
+###  https://w3id.org/shp#OriginalIdRemoval
+:OriginalIdRemoval rdf:type owl:NamedIndividual ,
+                            :OriginalIdRemoval ;
+                   prov:used :UidMapping-1 ;
+                   prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#PIS
+:PIS rdf:type owl:NamedIndividual ,
+              :NhsDatabase ;
+     :abbreviation "PIS"^^rdfs:Literal ;
+     :contact "Joe Bloke Tel:012547899" ;
+     :contexualInformationLink "https://www.ndc.scot.nhs.uk/National-Datasets/data.asp?SubID=9" ;
+     :dataCustodian "Nick Fluke" ;
+     :databaseName "Prescribing Information System" ;
+     :lastKnownUpdate "2021-10-20T00:00:00"^^xsd:dateTime ;
+     :mostRecentRecordDate "2021-09-10T00:00:00"^^xsd:dateTime ;
+     :oldestRecordDate "1900-01-01T00:00:00"^^xsd:dateTime ;
+     :permanentId "PIS"^^xsd:string ;
+     :version 20211020 .
+
+
+###  https://w3id.org/shp#PIS-1
+:PIS-1 rdf:type owl:NamedIndividual ,
+                :NhsDataset ;
+       prov:wasAttributedTo :Helen ;
+       prov:wasDerivedFrom :PIS ;
+       prov:wasGeneratedBy :DataSelection2 ;
+       :cohortMembersLinked "30000"^^xsd:nonNegativeInteger ;
+       :cohortMembersNotLinked "20000"^^xsd:nonNegativeInteger ;
+       :cohortMembersWithInvalidLinkageVariable "0"^^xsd:nonNegativeInteger ;
+       :cohortSize "50000"^^xsd:positiveInteger ;
+       :cohortSpecification "select CHI, P_DATE, POSTCODE A, B, C from PIS where date_of_birth = 'date 1' and date_of_birth = 'date 2'"^^rdfs:Literal ;
+       :extractedVariables "CHI, P_DATE, POSTCODE, A, B, C"^^rdfs:Literal ;
+       :linkageVariable "CHI" ;
+       :numberOfRecords "60000"^^xsd:nonNegativeInteger ;
+       :studyId "3674"^^xsd:nonNegativeInteger .
+
+
+###  https://w3id.org/shp#PIS-2
+:PIS-2 rdf:type owl:NamedIndividual ,
+                :NhsDataset ;
+       prov:wasAttributedTo :Helen ;
+       prov:wasDerivedFrom :PIS-1 ;
+       prov:wasGeneratedBy :DataAnonymization2 ;
+       :cohortMembersLinked "30000"^^xsd:nonNegativeInteger ;
+       :cohortMembersNotLinked "20000"^^xsd:nonNegativeInteger ;
+       :cohortMembersWithInvalidLinkageVariable "0"^^xsd:nonNegativeInteger ;
+       :cohortSize "50000"^^xsd:positiveInteger ;
+       :extractedVariables "CHI, P_DATE, DATAZONE, A, B, C"^^rdfs:Literal ;
+       :linkageVariable "CHI" ;
+       :numberOfRecords "60000"^^xsd:nonNegativeInteger ;
+       :studyId "3674"^^xsd:nonNegativeInteger .
+
+
+###  https://w3id.org/shp#PIS-3
+:PIS-3 rdf:type owl:NamedIndividual ,
+                :NhsDataset ;
+       prov:wasAttributedTo :Helen ;
+       prov:wasDerivedFrom :PIS-2 ;
+       prov:wasGeneratedBy :IdAnonymization2 ;
+       :cohortMembersLinked "30000"^^xsd:nonNegativeInteger ;
+       :cohortMembersNotLinked "20000"^^xsd:nonNegativeInteger ;
+       :cohortMembersWithInvalidLinkageVariable "0"^^xsd:nonNegativeInteger ;
+       :cohortSize "50000"^^xsd:positiveInteger ;
+       :extractedVariables "UID-PIS, P_DATE, DATAZONE, A, B, C"^^rdfs:Literal ;
+       :fileDate "2021-11-12T00:00:00"^^xsd:dateTime ;
+       :fileName "PIS-3-for-Check"^^rdfs:Literal ;
+       :linkageVariable "UID-PIS" ;
+       :numberOfRecords "60000"^^xsd:nonNegativeInteger ;
+       :studyId "3674"^^xsd:nonNegativeInteger .
+
+
+###  https://w3id.org/shp#PIS-4
+:PIS-4 rdf:type owl:NamedIndividual ,
+                :NhsDataset ;
+       prov:wasAttributedTo :Helen ;
+       prov:wasDerivedFrom :PIS-3 ;
+       prov:wasGeneratedBy :IdAnonymization4 ;
+       :cohortMembersLinked "30000"^^xsd:nonNegativeInteger ;
+       :cohortMembersNotLinked "20000"^^xsd:nonNegativeInteger ;
+       :cohortMembersWithInvalidLinkageVariable "0"^^xsd:nonNegativeInteger ;
+       :cohortSize "50000"^^xsd:positiveInteger ;
+       :extractedVariables "UID-STUDY, P_DATE, DATAZONE, A, B, C"^^rdfs:Literal ;
+       :fileDate "2021-11-12T00:00:00"^^xsd:dateTime ;
+       :fileName "Dash999_PIS_release.csv"^^rdfs:Literal ;
+       :linkageVariable "UID-STUDY" ;
+       :numberOfRecords "60000"^^xsd:nonNegativeInteger ;
+       :permanentId "PIS-4_2dbExample"^^rdfs:Literal ;
+       :studyId "3674"^^xsd:nonNegativeInteger .
+
+
+###  https://w3id.org/shp#ProjectIdAssignment
+:ProjectIdAssignment rdf:type owl:NamedIndividual ,
+                              :ProjectIdAssignment ;
+                     prov:wasAssociatedWith :Joanne .
+
+
+###  https://w3id.org/shp#ProjectIdToStudyIdTable-1
+:ProjectIdToStudyIdTable-1 rdf:type owl:NamedIndividual ,
+                                    :ProjectIdToStudyIdTable ;
+                           :fileDate "2021-11-10T00:00:00"^^xsd:dateTime ;
+                           :fileName "Project to Study ID Table.csv"^^rdfs:Literal ;
+                           :projectId "Dash_999"^^rdfs:Literal ;
+                           :studyId "1234"^^rdfs:Literal ,
+                                    "3674"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#ProjectIdToStudyIdTable-2
+:ProjectIdToStudyIdTable-2 rdf:type owl:NamedIndividual ,
+                                    :ProjectIdToStudyIdTable ;
+                           prov:wasAttributedTo :Helen ;
+                           prov:wasGeneratedBy :StudyIdAssignment1 ;
+                           :fileDate "2021-11-11T00:00:00"^^xsd:dateTime ,
+                                     "Project to Study ID Table.csv"^^rdfs:Literal ;
+                           :projectId "Dash_999"^^rdfs:Literal ;
+                           :studyId "1234"^^rdfs:Literal ,
+                                    "3674"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#ProjectIdToStudyIdTable-3
+:ProjectIdToStudyIdTable-3 rdf:type owl:NamedIndividual ,
+                                    :ProjectIdToStudyIdTable ;
+                           prov:wasAttributedTo :Helen ;
+                           prov:wasGeneratedBy :CreateCommonUid ;
+                           :fileDate "2021-11-11T00:00:00"^^xsd:dateTime ,
+                                     "Project to Study ID Table.csv"^^rdfs:Literal ;
+                           :projectId "Dash_999"^^rdfs:Literal ;
+                           :studyId "1234"^^rdfs:Literal ,
+                                    "3674"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#SMR00
+:SMR00 rdf:type owl:NamedIndividual ,
+                :NhsDatabase ;
+       :abbreviation "SMR00" ;
+       :contact "Jay Doe J.Doe@nhs.uk" ;
+       :contexualInformationLink "https://www.ndc.scot.nhs.uk/Data-Dictionary/SMR-Crib-Sheets/index.asp" ;
+       :dataCustodian "Nick Fluke" ;
+       :databaseName "SMR00 - Outpatient Attendance" ;
+       :lastKnownUpdate "2020-11-11T00:00:00"^^xsd:dateTime ;
+       :mostRecentRecordDate "2020-09-01T00:00:00"^^xsd:dateTime ;
+       :oldestRecordDate "1900-01-01T00:00:00"^^xsd:dateTime ;
+       :permanentId "SMR00" ;
+       :version 20201111 .
+
+
+###  https://w3id.org/shp#SMR00-1
+:SMR00-1 rdf:type owl:NamedIndividual ,
+                  :NhsDataset ;
+         prov:wasAttributedTo :Helen ;
+         prov:wasDerivedFrom :SMR00 ;
+         prov:wasGeneratedBy :DataSelection1 ;
+         :cohortMembersLinked 47000 ;
+         :cohortMembersNotLinked 3000 ;
+         :cohortMembersWithInvalidLinkageVariable 6 ;
+         :cohortSize 50000 ;
+         :cohortSpecification "select CHI, DOB, APPT_DATE, POSTCODE, X, Y, Z from SMR00 where date_of_birth = 'date 1' and date_of_birth = 'date 2'" ;
+         :extractedVariables "CHI, DOB, APPT_DATE, POSTCODE, X, Y, Z" ;
+         :linkageVariable "CHI" ;
+         :numberOfRecords 60000 ;
+         :studyId "1234"^^xsd:nonNegativeInteger .
+
+
+###  https://w3id.org/shp#SMR00-2
+:SMR00-2 rdf:type owl:NamedIndividual ,
+                  :NhsDataset ;
+         prov:wasAttributedTo :Helen ;
+         prov:wasDerivedFrom :SMR00-1 ;
+         prov:wasGeneratedBy :DataAnonymization1 ;
+         :cohortMembersLinked 47000 ;
+         :cohortMembersNotLinked 3000 ;
+         :cohortMembersWithInvalidLinkageVariable 6 ;
+         :cohortSize "50000"^^xsd:nonNegativeInteger ;
+         :extractedVariables "CHI, AGE, APPT_DATE, DATAZONE, X, Y, Z" ;
+         :linkageVariable "CHI" ;
+         :numberOfRecords "60003"^^xsd:nonNegativeInteger ;
+         :studyId "1234"^^xsd:nonNegativeInteger .
+
+
+###  https://w3id.org/shp#SMR00-3
+:SMR00-3 rdf:type owl:NamedIndividual ,
+                  :NhsDataset ;
+         prov:wasAttributedTo :Helen ;
+         prov:wasDerivedFrom :SMR00-2 ;
+         prov:wasGeneratedBy :IdAnonymization1 ;
+         :cohortMembersLinked 47000 ;
+         :cohortMembersNotLinked 3000 ;
+         :cohortMembersWithInvalidLinkageVariable 6 ;
+         :cohortSize 50000 ;
+         :extractedVariables "UID-SMR, AGE, APPT_DATE, DATAZONE, X, Y, Z"^^rdfs:Literal ;
+         :fileDate "2021-11-11T00:00:00"^^xsd:dateTime ;
+         :fileName "SMR00-3-for-Checks.csv"^^rdfs:Literal ;
+         :linkageVariable "UID-SMR" ;
+         :numberOfRecords "60003"^^xsd:nonNegativeInteger ;
+         :studyId "1234"^^xsd:nonNegativeInteger .
+
+
+###  https://w3id.org/shp#SMR00-4
+:SMR00-4 rdf:type owl:NamedIndividual ,
+                  :NhsDataset ;
+         prov:wasAttributedTo :Helen ;
+         prov:wasDerivedFrom :SMR00-3 ;
+         prov:wasGeneratedBy :IdAnonymization3 ;
+         :cohortMembersLinked 47000 ;
+         :cohortMembersNotLinked 3000 ;
+         :cohortMembersWithInvalidLinkageVariable 6 ;
+         :cohortSize 50000 ;
+         :extractedVariables "UID-STUDY, AGE, APPT_DATE, DATAZONE, X, Y, Z"^^rdfs:Literal ;
+         :fileDate "2021-11-11T00:00:00"^^xsd:dateTime ;
+         :fileName "Dash999_SMR00_release.csv"^^rdfs:Literal ;
+         :linkageVariable "UID-STUDY" ;
+         :numberOfRecords "60000"^^xsd:positiveInteger ;
+         :permanentId "SMR-4_2dbExample"^^rdfs:Literal ;
+         :studyId "1234"^^xsd:positiveInteger .
+
+
+###  https://w3id.org/shp#SignOffDlp
+:SignOffDlp rdf:type owl:NamedIndividual ,
+                     :SignOff ;
+            prov:used :DataLinkagePlan-1 ;
+            prov:wasAssociatedWith :Bernhard ;
+            prov:atTime "2021-11-01T08:00:00"^^xsd:dateTime .
+
+
+###  https://w3id.org/shp#StatisticalSummary_PIS-3
+:StatisticalSummary_PIS-3 rdf:type owl:NamedIndividual ,
+                                   :StatisticalSummary ;
+                          prov:wasAttributedTo :Helen ;
+                          prov:wasGeneratedBy :DatasetSummarisation2 ;
+                          :projectId "Dash_999"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#StatisticalSummary_PIS-4
+:StatisticalSummary_PIS-4 rdf:type owl:NamedIndividual ,
+                                   :StatisticalSummary ;
+                          prov:wasAttributedTo :Helen ;
+                          prov:wasGeneratedBy :DatasetSummarisation4 ;
+                          :fileName "Dash999_Statsitcal-Summary-SMR00.csv"^^rdfs:Literal ;
+                          :projectId "Dash_999"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#StatisticalSummary_SMR00-3
+:StatisticalSummary_SMR00-3 rdf:type owl:NamedIndividual ,
+                                     :StatisticalSummary ;
+                            prov:wasAttributedTo :Helen ;
+                            prov:wasGeneratedBy :DatasetSummarisation1 ;
+                            :projectId "Dash_999"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#StatisticalSummary_SMR00-4
+:StatisticalSummary_SMR00-4 rdf:type owl:NamedIndividual ,
+                                     :StatisticalSummary ;
+                            prov:wasAttributedTo :Helen ;
+                            prov:wasGeneratedBy :DatasetSummarisation3 ;
+                            :fileName "Dash999_Statsitcal-Summary-SMR00.csv"^^rdfs:Literal ;
+                            :projectId "Dash_999"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#Storage1
+:Storage1 rdf:type owl:NamedIndividual ,
+                   :Storage ;
+          prov:used :SMR00-3 ;
+          prov:wasAssociatedWith :Helen ;
+          rdfs:comment "Datasets and Linkage dataset exported from SQL to flat-files" .
+
+
+###  https://w3id.org/shp#Storage2
+:Storage2 rdf:type owl:NamedIndividual ,
+                   :Storage ;
+          prov:used :PIS-3 ;
+          prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#Storage3
+:Storage3 rdf:type owl:NamedIndividual ,
+                   :Storage ;
+          prov:used :SMR00-4 ;
+          prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#Storage4
+:Storage4 rdf:type owl:NamedIndividual ,
+                   :Storage ;
+          prov:used :PIS-4 ;
+          prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#Storage5
+:Storage5 rdf:type owl:NamedIndividual ,
+                   :Storage ;
+          prov:used :StatisticalSummary_SMR00-4 ;
+          prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#Storage6
+:Storage6 rdf:type owl:NamedIndividual ,
+                   :Storage ;
+          prov:used :StatisticalSummary_PIS-4 ;
+          prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#StudyIdAssignment1
+:StudyIdAssignment1 rdf:type owl:NamedIndividual ,
+                             :StudyIdAssignment ;
+                    prov:used :ProjectIdToStudyIdTable-1 ;
+                    prov:wasAssociatedWith :Helen ;
+                    rdfs:comment "Update the ProjectID To StudyID Table with a new the ProjectID to StudyID pairs for use in linkage/anonymisation" .
+
+
+###  https://w3id.org/shp#UIDMapping2CheckReport
+:UIDMapping2CheckReport rdf:type owl:NamedIndividual ,
+                                 :UIDMapping2CheckReport ;
+                        prov:wasAttributedTo :Helen ;
+                        prov:wasGeneratedBy :UidMapping2Check ;
+                        :resultOfCheck "passed"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#UidMapping-1
+:UidMapping-1 rdf:type owl:NamedIndividual ,
+                       :UidMapping ;
+              prov:wasAttributedTo :Helen ;
+              prov:wasGeneratedBy :IdLinkage ;
+              :cohortSize 50000 ;
+              :fileName "UidMapping for Dash_999"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#UidMapping-2
+:UidMapping-2 rdf:type owl:NamedIndividual ,
+                       :UidMapping ;
+              prov:wasAttributedTo :Helen ;
+              prov:wasGeneratedBy :OriginalIdRemoval ;
+              :cohortSize 50000 ;
+              :fileName "UidMapping for Dash_999"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#UidMapping-3
+:UidMapping-3 rdf:type owl:NamedIndividual ,
+                       :UidMapping ;
+              prov:wasAttributedTo :Helen ;
+              prov:wasGeneratedBy :AssignCommonUidMapping ;
+              :cohortSize 50000 ;
+              :fileName "UidMapping for Dash_999"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#UidMapping2Check
+:UidMapping2Check rdf:type owl:NamedIndividual ,
+                           :UidMapping2Check ;
+                  prov:used :CheckValue1 ,
+                            :CheckValue2 ;
+                  prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#Update-1
+:Update-1 rdf:type owl:NamedIndividual ,
+                   :Update ;
+          prov:used :DataLinkagePlan-1 ,
+                    :PIS-3 ,
+                    :SMR00-3 ,
+                    :UidMapping-2 ;
+          prov:wasAssociatedWith :Helen ;
+          rdfs:comment "A document is updated" .
+
+
+###  https://w3id.org/shp#Update-2
+:Update-2 rdf:type owl:NamedIndividual ,
+                   :Update ;
+          prov:used :DataLinkagePlan-2 ;
+          prov:wasAssociatedWith :Helen .
+
+
+###  https://w3id.org/shp#ValidationCheckNhs
+:ValidationCheckNhs rdf:type owl:NamedIndividual ,
+                             :ValidationCheck ;
+                    prov:used :DataLinkagePlan-2 ,
+                              :PIS-3 ,
+                              :SMR00-3 ,
+                              :StatisticalSummary_PIS-3 ,
+                              :StatisticalSummary_SMR00-3 ,
+                              :UidMapping-2 ;
+                    prov:wasAssociatedWith :Milan .
+
+
+###  https://w3id.org/shp#ValidationCheckNhsReport
+:ValidationCheckNhsReport rdf:type owl:NamedIndividual ,
+                                   :ValidationCheckReport ;
+                          prov:wasAttributedTo :Jessica ;
+                          prov:wasGeneratedBy :ValidationCheckNhs ;
+                          :resultOfCheck "passed"^^rdfs:Literal .
+
+
+###  https://w3id.org/shp#ValidationCheckUoa
+:ValidationCheckUoa rdf:type owl:NamedIndividual ,
+                             :ValidationCheck ;
+                    prov:used :DataLinkagePlan-2 ,
+                              :PIS-4 ,
+                              :SMR00-4 ,
+                              :StatisticalSummary_PIS-3 ,
+                              :StatisticalSummary_PIS-4 ,
+                              :StatisticalSummary_SMR00-3 ,
+                              :StatisticalSummary_SMR00-4 ;
+                    prov:wasAssociatedWith :Milan .
+
+
+###  https://w3id.org/shp#ValidationCheckUoaReport
+:ValidationCheckUoaReport rdf:type owl:NamedIndividual ,
+                                   :ValidationCheckReport ;
+                          prov:wasAttributedTo :Jessica ;
+                          prov:wasGeneratedBy :ValidationCheckUoa ;
+                          :resultOfCheck "passed"^^rdfs:Literal .
+
+
+#################################################################
+#    Annotations
+#################################################################
+
+:AssignCommonUidMapping rdfs:label "Assign Common Uid Mapping" ;
+                        rdfs:comment "Replacing the dataset specific anonymised UIDs with a common UID across all of the projects datasets, in other words linking anonymised UIDs" .
+
+
+:DataTransfer rdfs:comment "Datasets and Linkage Dataset flat-files securely transferred to the Data Safe Haven" .
+
+
+:DatasetRelease rdfs:comment "Flat-files (Datasets), Data Linkage Plan and statistical summary are transferred to project folder, which is accessible to researcher." .
+
+
+:IdLinkage rdfs:comment "Create a unique identifier (UID) mapping table for each anonymized dataset, which maps the original identifier (non-anonymized) of the dataset to the new assign anonymized UIDs for that dataset." .
+
+
+:OriginalIdRemoval rdfs:comment "Once all datasets for the project have had anonymised IDs applied and a linkage dataset created, the original IDs are removed from the UID mapping table (a dataset moves from Pre-Release to Release)" .
+
+
+:ProjectIdAssignment rdfs:comment "Project IDs are assigned to a project by the Research Coordinator as soon as a researcher makes contact with the Data Safen Haven and wants to discuss his project idea" .
+
+
+:UIDMapping2CheckReport rdfs:comment "NOTE: the activity (UidMapping2Check) that generates this report is not yet official implemented into the workflow of the Analysts."^^rdfs:Literal ,
+                                     "Report of the results of the UidMapping2Check, which indicates if the UidMapping2-file or table has changed after the original IDs were removed. It should never change after the original IDs were removed and before the new common UIDs are assigned."^^rdfs:Literal .
+
+
+:UidMapping2Check rdfs:comment "NOTE: This activity is not yet official implemented into the workflow of the Analysts."^^rdfs:Literal ,
+                               "It checks whether the UidMapping2-file or table has changed after the original IDs were removed or not, using check values (e.g. “sum check”). It should never change after the original IDs were removed and before the new common UIDs are assigned."^^rdfs:Literal .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
